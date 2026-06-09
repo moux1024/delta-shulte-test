@@ -1,0 +1,268 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #0f0f23;
+}
+
+/* 状态栏 */
+.status-bar {
+  display: flex;
+  justify-content: space-around;
+  padding: 24rpx 32rpx;
+  background: var(--card-bg);
+  border-bottom: 1rpx solid var(--card-border);
+}
+
+.status-item {
+  text-align: center;
+}
+
+.status-label {
+  display: block;
+  font-size: 22rpx;
+  color: var(--text-muted);
+  margin-bottom: 8rpx;
+}
+
+.status-value {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.target-num {
+  font-size: 48rpx !important;
+  color: var(--accent) !important;
+}
+
+.timer {
+  color: #f39c12 !important;
+}
+
+.error-count {
+  color: var(--success) !important;
+}
+
+.error-count.has-error {
+  color: var(--danger) !important;
+}
+
+/* 进度条 */
+.progress-bar {
+  height: 8rpx;
+  background: var(--card-border);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  transition: width 0.2s ease;
+}
+
+/* 开始提示 */
+.start-hint {
+  text-align: center;
+  padding: 16rpx 0;
+}
+
+.start-hint-text {
+  font-size: 28rpx;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* 方格 */
+.grid-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24rpx;
+}
+
+.grid {
+  width: 100%;
+  display: grid;
+  gap: 10rpx;
+  max-width: 700rpx;
+  aspect-ratio: 1;
+}
+
+/* 根据方格大小调整字体 */
+.grid-5 .cell-num { font-size: 40rpx; }
+.grid-6 .cell-num { font-size: 34rpx; }
+.grid-7 .cell-num { font-size: 28rpx; }
+.grid-5 { gap: 10rpx; }
+.grid-6 { gap: 8rpx; }
+.grid-7 { gap: 6rpx; }
+
+.cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg);
+  border: 2rpx solid var(--card-border);
+  border-radius: 10rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+  transition: all 0.15s;
+  position: relative;
+}
+
+.cell.dim {
+  opacity: 0.5;
+}
+
+.cell-num {
+  font-weight: 700;
+}
+
+/* 已找到 */
+.cell.found {
+  background: rgba(46, 204, 113, 0.08);
+  border-color: rgba(46, 204, 113, 0.25);
+}
+
+.cell.found .cell-num {
+  color: var(--success);
+  opacity: 0.35;
+}
+
+/* 点错 */
+.cell.wrong {
+  background: rgba(231, 76, 60, 0.2);
+  border-color: rgba(231, 76, 60, 0.6);
+  animation: shake 0.3s ease;
+}
+
+.cell.wrong .cell-num {
+  color: var(--danger);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8rpx); }
+  40% { transform: translateX(8rpx); }
+  60% { transform: translateX(-4rpx); }
+  80% { transform: translateX(4rpx); }
+}
+
+/* 错误提示 */
+.error-toast {
+  position: fixed;
+  top: 200rpx;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20rpx);
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+  padding: 16rpx 40rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.error-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* 完成弹窗 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+}
+
+.modal {
+  width: 80%;
+  max-width: 600rpx;
+  background: var(--card-bg);
+  border: 1rpx solid var(--card-border);
+  border-radius: 24rpx;
+  padding: 48rpx;
+  text-align: center;
+}
+
+.modal-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 16rpx;
+}
+
+.modal-time {
+  display: block;
+  font-size: 72rpx;
+  font-weight: 900;
+  color: var(--accent);
+  margin-bottom: 8rpx;
+}
+
+.modal-score {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 700;
+  margin-bottom: 16rpx;
+}
+
+.modal-comment {
+  display: block;
+  font-size: 28rpx;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 36rpx;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.btn-modal {
+  flex: 1;
+  padding: 22rpx 0 !important;
+  border-radius: 12rpx !important;
+  font-size: 28rpx !important;
+  font-weight: 600 !important;
+}
+
+.btn-modal::after {
+  border: none !important;
+}
+
+.btn-retry {
+  background: var(--card-border) !important;
+  color: var(--text-primary) !important;
+}
+
+.btn-detail {
+  background: linear-gradient(135deg, var(--accent), var(--accent-light)) !important;
+  color: white !important;
+}
+
+.btn-ad {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: var(--text-secondary) !important;
+  border: 1rpx solid var(--card-border) !important;
+  margin-top: 0 !important;
+  font-size: 26rpx !important;
+}

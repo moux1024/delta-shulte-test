@@ -1,0 +1,71 @@
+<view class="page">
+  <!-- 顶部状态栏 -->
+  <view class="status-bar">
+    <view class="status-item">
+      <text class="status-label">找到</text>
+      <text class="status-value target-num">{{currentNum}}</text>
+    </view>
+    <view class="status-item">
+      <text class="status-label">用时</text>
+      <text class="status-value timer">{{timerDisplay}}</text>
+    </view>
+    <view class="status-item">
+      <text class="status-label">错误</text>
+      <text class="status-value error-count {{errorCount > 0 ? 'has-error' : ''}}">{{errorCount}}</text>
+    </view>
+  </view>
+
+  <!-- 进度条 -->
+  <view class="progress-bar">
+    <view class="progress-fill" style="width: {{progressPercent}}%"></view>
+  </view>
+
+  <!-- 开始提示（首次点击前显示） -->
+  <view class="start-hint" wx:if="{{!started}}">
+    <text class="start-hint-text">👆 点击数字 1 开始</text>
+  </view>
+
+  <!-- 方格区域 -->
+  <view class="grid-container">
+    <view 
+      class="grid grid-{{gridSize}}" 
+      style="grid-template-columns: repeat({{gridSize}}, 1fr);"
+    >
+      <view 
+        class="cell {{item.found ? 'found' : ''}} {{item.wrong ? 'wrong' : ''}} {{!started ? 'dim' : ''}}"
+        wx:for="{{grid}}"
+        wx:key="id"
+        data-num="{{item.num}}"
+        data-index="{{index}}"
+        bindtap="onCellTap"
+      >
+        <text class="cell-num">{{item.num}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 错误提示 -->
+  <view class="error-toast {{showError ? 'show' : ''}}">
+    <text>❌ 点错了！目标：{{currentNum}}</text>
+  </view>
+
+  <!-- 完成弹窗 -->
+  <view class="modal-overlay" wx:if="{{showComplete}}">
+    <view class="modal">
+      <text class="modal-title">🎯 挑战完成！</text>
+      <text class="modal-time">{{finalTimeStr}}</text>
+      <text class="modal-score" style="color: {{gradeColor}}">综合评分 {{overallScore}} · {{gradeName}}</text>
+      <text class="modal-comment">{{deltaComment}}</text>
+      
+      <view class="modal-buttons">
+        <button class="btn-modal btn-retry" bindtap="retryGame">🔄 再来一次</button>
+        <button class="btn-modal btn-detail" bindtap="goResult">📊 详细分析</button>
+      </view>
+
+      <!-- 激励视频广告按钮 -->
+      <button class="btn-modal btn-ad" bindtap="watchAdForDouble" wx:if="{{hasRewardedAd}}">
+        🎬 看广告双倍积分
+      </button>
+    </view>
+  </view>
+</view>

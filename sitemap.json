@@ -1,0 +1,17 @@
+{
+  "desc": "关于本小程序的索引配置",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "pages/index/index"
+    },
+    {
+      "action": "allow",
+      "page": "pages/game/game"
+    },
+    {
+      "action": "allow",
+      "page": "pages/result/result"
+    }
+  ]
+}
