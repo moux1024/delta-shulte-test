@@ -82,6 +82,6 @@
   <button class="btn-start" bindtap="retry">🔥 再来一次</button>
   <button class="btn-share" open-type="share">📤 分享给老登朋友</button>
 
-  <!-- Banner广告 -->
-  <ad unit-id="{{bannerAdId}}" ad-type="banner" class="banner-ad" wx:if="{{showAd}}" />
+  <!-- Banner广告（暂时隐藏） -->
+  <!-- <ad unit-id="{{bannerAdId}}" ad-type="banner" class="banner-ad" wx:if="{{showAd}}" /> -->
 </view>

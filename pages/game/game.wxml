@@ -32,7 +32,7 @@
       style="grid-template-columns: repeat({{gridSize}}, 1fr);"
     >
       <view 
-        class="cell {{item.found ? 'found' : ''}} {{item.wrong ? 'wrong' : ''}} {{!started ? 'dim' : ''}}"
+        class="cell {{item.wrong ? 'wrong' : ''}} {{!started ? 'dim' : ''}}"
         wx:for="{{grid}}"
         wx:key="id"
         data-num="{{item.num}}"
@@ -62,10 +62,10 @@
         <button class="btn-modal btn-detail" bindtap="goResult">📊 详细分析</button>
       </view>
 
-      <!-- 激励视频广告按钮 -->
-      <button class="btn-modal btn-ad" bindtap="watchAdForDouble" wx:if="{{hasRewardedAd}}">
+      <!-- 激励视频广告按钮（暂时隐藏） -->
+      <!-- <button class="btn-modal btn-ad" bindtap="watchAdForDouble" wx:if="{{hasRewardedAd}}">
         🎬 看广告双倍积分
-      </button>
+      </button> -->
     </view>
   </view>
 </view>

@@ -110,6 +110,6 @@
     🔥 开始挑战
   </button>
 
-  <!-- Banner广告 -->
-  <ad unit-id="{{bannerAdId}}" ad-intervals="{{adIntervals}}" ad-type="banner" class="banner-ad" wx:if="{{showAd}}" />
+  <!-- Banner广告（暂时隐藏） -->
+  <!-- <ad unit-id="{{bannerAdId}}" ad-intervals="{{adIntervals}}" ad-type="banner" class="banner-ad" wx:if="{{showAd}}" /> -->
 </view>

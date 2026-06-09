@@ -121,16 +121,7 @@
   font-weight: 700;
 }
 
-/* 已找到 */
-.cell.found {
-  background: rgba(46, 204, 113, 0.08);
-  border-color: rgba(46, 204, 113, 0.25);
-}
-
-.cell.found .cell-num {
-  color: var(--success);
-  opacity: 0.35;
-}
+/* 已找到 - 保持原样不区分 */
 
 /* 点错 */
 .cell.wrong {
