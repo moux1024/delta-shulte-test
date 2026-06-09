@@ -12,5 +12,14 @@ App({
     // 上次测试结果（供结果页读取）
     lastResult: null
   },
-  onLaunch() {}
+  onLaunch() {
+    // 云开发初始化
+    if (wx.cloud) {
+      wx.cloud.init({
+        // env 填写你的云开发环境 ID，在微信开发者工具「云开发」控制台获取
+        env: '',
+        traceUser: true
+      })
+    }
+  }
 })

@@ -84,6 +84,7 @@ function getLeaderboard(gridSize, limit) {
 // 内部实现
 
 function uploadViaCloud(session, dimensions) {
+  if (!wx.cloud) return Promise.resolve(null)
   return wx.cloud.callFunction({
     name: CLOUD_FUNCTION,
     data: {
