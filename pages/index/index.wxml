@@ -1,7 +1,7 @@
 <view class="page">
   <!-- 顶部 Hero -->
   <view class="hero">
-    <view class="hero-badge">🎯 注意力测试</view>
+    <view class="hero-badge">注意力测试</view>
     <text class="hero-title">测测你适不适合玩三角洲</text>
     <text class="hero-subtitle">老登，别怂，来挑战！</text>
     <view class="hero-glow"></view>
@@ -9,7 +9,7 @@
 
   <!-- 各难度最佳记录 -->
   <view class="best-records card" wx:if="{{hasBestRecord}}">
-    <text class="best-title">🏅 历史最佳</text>
+    <text class="best-title">历史最佳</text>
     <view class="best-list">
       <view class="best-item" wx:if="{{bestRecords[5]}}">
         <text class="best-diff">入门(5×5)</text>
@@ -29,7 +29,6 @@
   <!-- 游戏说明 -->
   <view class="intro card">
     <view class="intro-header">
-      <text class="intro-icon">📋</text>
       <text class="intro-title">游戏规则</text>
     </view>
     <view class="intro-body">
@@ -55,7 +54,6 @@
   <!-- 科学原理 -->
   <view class="science card">
     <view class="intro-header">
-      <text class="intro-icon">🧬</text>
       <text class="intro-title">科学原理</text>
     </view>
     <view class="science-body">
@@ -82,32 +80,44 @@
         class="diff-btn {{difficulty === 5 ? 'active' : ''}}" 
         bindtap="setDifficulty" 
         data-size="5"
+        hover-class="option-pressed"
+        hover-stay-time="0"
       >
         <text class="diff-name">入门</text>
         <text class="diff-desc">5×5</text>
+        <text class="diff-current" wx:if="{{difficulty === 5}}">当前</text>
       </view>
       <view 
         class="diff-btn {{difficulty === 6 ? 'active' : ''}}" 
         bindtap="setDifficulty" 
         data-size="6"
+        hover-class="option-pressed"
+        hover-stay-time="0"
       >
         <text class="diff-name">标准</text>
         <text class="diff-desc">6×6</text>
+        <text class="diff-current" wx:if="{{difficulty === 6}}">当前</text>
       </view>
       <view 
         class="diff-btn {{difficulty === 7 ? 'active' : ''}}" 
         bindtap="setDifficulty" 
         data-size="7"
+        hover-class="option-pressed"
+        hover-stay-time="0"
       >
         <text class="diff-name">地狱</text>
         <text class="diff-desc">7×7</text>
+        <text class="diff-current" wx:if="{{difficulty === 7}}">当前</text>
       </view>
     </view>
   </view>
 
   <!-- 开始按钮 -->
-  <button class="btn-start" bindtap="startGame">
-    🔥 开始挑战
+  <button class="btn-start" bindtap="startGame" hover-class="btn-pressed" hover-stay-time="0">
+    开始挑战
+  </button>
+  <button class="btn-test-result" bindtap="openTestResult" hover-class="option-pressed" hover-stay-time="0">
+    测试查看结果
   </button>
 
   <!-- Banner广告（暂时隐藏） -->

@@ -22,7 +22,7 @@
 
   <!-- 开始提示（首次点击前显示） -->
   <view class="start-hint" wx:if="{{!started}}">
-    <text class="start-hint-text">👆 点击数字 1 开始</text>
+    <text class="start-hint-text">点击数字 1 开始</text>
   </view>
 
   <!-- 方格区域 -->
@@ -38,6 +38,8 @@
         data-num="{{item.num}}"
         data-index="{{index}}"
         bindtap="onCellTap"
+        hover-class="cell-pressed"
+        hover-stay-time="0"
       >
         <text class="cell-num">{{item.num}}</text>
       </view>
@@ -46,25 +48,25 @@
 
   <!-- 错误提示 -->
   <view class="error-toast {{showError ? 'show' : ''}}">
-    <text>❌ 点错了！目标：{{currentNum}}</text>
+    <text>点错了，目标：{{currentNum}}</text>
   </view>
 
   <!-- 完成弹窗 -->
   <view class="modal-overlay" wx:if="{{showComplete}}">
     <view class="modal">
-      <text class="modal-title">🎯 挑战完成！</text>
+      <text class="modal-title">挑战完成</text>
       <text class="modal-time">{{finalTimeStr}}</text>
       <text class="modal-score" style="color: {{gradeColor}}">综合评分 {{overallScore}} · {{gradeName}}</text>
       <text class="modal-comment">{{deltaComment}}</text>
       
       <view class="modal-buttons">
-        <button class="btn-modal btn-retry" bindtap="retryGame">🔄 再来一次</button>
-        <button class="btn-modal btn-detail" bindtap="goResult">📊 详细分析</button>
+        <button class="btn-modal btn-retry" bindtap="retryGame" hover-class="option-pressed" hover-stay-time="0">再来一次</button>
+        <button class="btn-modal btn-detail" bindtap="goResult" hover-class="btn-pressed" hover-stay-time="0">详细分析</button>
       </view>
 
       <!-- 激励视频广告按钮（暂时隐藏） -->
       <!-- <button class="btn-modal btn-ad" bindtap="watchAdForDouble" wx:if="{{hasRewardedAd}}">
-        🎬 看广告双倍积分
+        看广告双倍积分
       </button> -->
     </view>
   </view>

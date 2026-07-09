@@ -49,9 +49,34 @@ Page({
     })
   },
 
+  openTestResult() {
+    const app = getApp()
+    app.globalData.lastResult = {
+      session: {
+        sessionId: `test_${Date.now()}`,
+        gridSize: this.data.difficulty,
+        totalTime: 28680,
+        events: []
+      },
+      dimensions: {
+        searchSpeed: 86,
+        stability: 78,
+        focus: 72,
+        errorControl: 91,
+        spatialMemory: 84,
+        overallScore: 82,
+        details: {}
+      }
+    }
+
+    wx.navigateTo({
+      url: '/pages/result/result'
+    })
+  },
+
   onShareAppMessage() {
     return {
-      title: '测测你适不适合玩三角洲，老登！🔥',
+      title: '测测你适不适合玩三角洲',
       path: '/pages/index/index',
       imageUrl: ''
     }

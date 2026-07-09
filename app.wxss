@@ -1,28 +1,42 @@
 page {
-  background-color: #0f0f23;
-  color: #e0e0e0;
+  background-color: #f5f7fb;
+  color: #1f2937;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --accent: #ff6b35;
-  --accent-light: #ff8c5a;
-  --danger: #e74c3c;
-  --success: #2ecc71;
-  --card-bg: #1a1a2e;
-  --card-border: #2a2a4a;
-  --text-primary: #ffffff;
-  --text-secondary: #a0a0b0;
-  --text-muted: #666680;
+  --accent: #2563eb;
+  --accent-light: #38bdf8;
+  --accent-soft: #dbeafe;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --warning: #d97706;
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --pressed-bg: #dbeafe;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #8a94a6;
 }
 
 /* 通用按钮 */
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  background: var(--accent);
   color: white;
   border: none;
   border-radius: 12rpx;
   padding: 24rpx 60rpx;
   font-size: 32rpx;
   font-weight: 600;
-  box-shadow: 0 8rpx 24rpx rgba(255, 107, 53, 0.3);
+  box-shadow: 0 8rpx 24rpx rgba(37, 99, 235, 0.22);
+}
+
+.btn-pressed {
+  background: #1d4ed8 !important;
+  color: #ffffff !important;
+  transform: scale(0.98);
+}
+
+.option-pressed {
+  background: var(--pressed-bg) !important;
+  border-color: var(--accent) !important;
 }
 
 .btn-primary::after {

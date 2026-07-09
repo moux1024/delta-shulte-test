@@ -1,87 +1,66 @@
 <view class="page">
-  <!-- 顶部结果展示 -->
-  <view class="result-hero">
-    <view class="result-badge" style="background: {{grade.color}}20; border-color: {{grade.color}}40; color: {{grade.color}}">
-      {{grade.level}}
+  <view class="report-hero">
+    <view class="hero-topline">
+      <text class="hero-label">认知画像</text>
+      <text class="hero-grade" style="color: {{grade.color}}">{{grade.level}}</text>
     </view>
-    <text class="result-title" style="color: {{grade.color}}">{{grade.grade}}</text>
-    <text class="result-time">{{timeStr}}</text>
-    <text class="result-score-label">综合评分</text>
-    <text class="result-score" style="color: {{grade.color}}">{{dimensions.overallScore}}</text>
+    <text class="profile-name">{{profile.name}}</text>
+    <text class="profile-summary">{{profile.summary}}</text>
+    <view class="hero-meta-row">
+      <view class="hero-meta-item">
+        <text class="hero-meta-label">完成时间</text>
+        <text class="hero-meta-value">{{timeStr}}</text>
+      </view>
+      <view class="hero-meta-item">
+        <text class="hero-meta-label">推荐打法</text>
+        <text class="hero-meta-value">{{primaryRole.style}}</text>
+      </view>
+    </view>
   </view>
 
-  <!-- 雷达图 -->
-  <view class="radar-card card">
-    <text class="section-title">📊 能力雷达图</text>
+  <view class="tag-row">
+    <text class="tag" wx:for="{{tags}}" wx:key="*this">{{item}}</text>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">类型解读</text>
+    </view>
+    <view class="type-interpretation">
+      <text class="type-title">{{profile.name}}</text>
+      <text class="type-text">{{selectedTypeInterpretation.text}}</text>
+    </view>
+  </view>
+
+  <view class="section operator-section">
+    <view class="section-header">
+      <text class="section-title">干员推荐</text>
+    </view>
+    <view class="operator-card" wx:for="{{operatorList}}" wx:key="codename">
+      <view class="operator-rank">No.{{index + 1}}</view>
+      <view class="operator-head">
+        <view>
+          <text class="operator-name">{{item.codename}}</text>
+          <text class="operator-meta">{{item.name}} / {{item.className}}</text>
+        </view>
+        <view class="match-pill" style="border-color: {{item.color}}; color: {{item.color}}">
+          {{item.match}}%
+        </view>
+      </view>
+      <text class="operator-reason">{{item.reason}}</text>
+      <text class="operator-ability">{{item.ability}}</text>
+    </view>
+  </view>
+
+  <view class="radar-card section">
+    <view class="section-header">
+      <text class="section-title">舒尔特五维雷达</text>
+    </view>
     <view class="radar-container">
       <canvas canvas-id="radarCanvas" id="radarCanvas" class="radar-canvas" type="2d"></canvas>
     </view>
   </view>
 
-  <!-- 五维度详细分析 -->
-  <view class="dimensions card">
-    <text class="section-title">🔍 维度分析</text>
-    <view class="dim-item" wx:for="{{dimList}}" wx:key="name">
-      <view class="dim-header">
-        <view class="dim-left">
-          <text class="dim-icon">{{item.icon}}</text>
-          <text class="dim-name">{{item.name}}</text>
-        </view>
-        <text class="dim-value" style="color: {{item.color}}">{{item.score}}分</text>
-      </view>
-      <view class="dim-bar-bg">
-        <view class="dim-bar-fill" style="width: {{item.score}}%; background: {{item.color}}"></view>
-      </view>
-      <text class="dim-desc">{{item.desc}}</text>
-    </view>
-  </view>
-
-  <!-- 优势与待提升 -->
-  <view class="strengths-weaknesses card">
-    <view class="sw-section" wx:if="{{strengths.length > 0}}">
-      <text class="sw-title">✅ 优势项</text>
-      <view class="sw-item" wx:for="{{strengths}}" wx:key="name">
-        <text class="sw-text">{{item.icon}} {{item.name}}（{{item.score}}分）— {{item.strength}}</text>
-      </view>
-    </view>
-    <view class="sw-divider" wx:if="{{strengths.length > 0 && weaknesses.length > 0}}"></view>
-    <view class="sw-section" wx:if="{{weaknesses.length > 0}}">
-      <text class="sw-title">△ 待提升项</text>
-      <view class="sw-item" wx:for="{{weaknesses}}" wx:key="name">
-        <text class="sw-text">{{item.icon}} {{item.name}}（{{item.score}}分）— {{item.weakness}}</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- 三角洲适配建议 -->
-  <view class="advice card">
-    <text class="section-title">🎮 三角洲适配建议</text>
-    <view class="advice-item" wx:for="{{adviceList}}" wx:key="index">
-      <text class="advice-icon">{{item.icon}}</text>
-      <text class="advice-text">{{item.text}}</text>
-    </view>
-  </view>
-
-  <!-- 科学解读 -->
-  <view class="science card">
-    <text class="section-title">🧬 科学解读</text>
-    <text class="science-text">
-      本测试不仅记录完成时间，更深入分析了你在搜索速度、注意力稳定性、持续专注力、错误控制和恢复能力五个维度的表现。
-    </text>
-    <text class="science-text">
-      在射击类游戏（如三角洲行动）中，快速发现目标、准确定位敌人位置、在高压下保持稳定表现是核心能力。
-      你的雷达图越均匀饱满，说明你在高压环境下的综合信息处理能力越强。
-    </text>
-    <text class="science-text">
-      这些指标与飞行员、特种兵选拔中的关键考核维度高度一致。
-      坚持每天训练，你会看到明显的进步。
-    </text>
-  </view>
-
-  <!-- 操作按钮 -->
-  <button class="btn-start" bindtap="retry">🔥 再来一次</button>
-  <button class="btn-share" open-type="share">📤 分享给老登朋友</button>
-
-  <!-- Banner广告（暂时隐藏） -->
-  <!-- <ad unit-id="{{bannerAdId}}" ad-type="banner" class="banner-ad" wx:if="{{showAd}}" /> -->
+  <button class="btn-start" bindtap="retry" hover-class="btn-pressed" hover-stay-time="0">再测一次</button>
+  <button class="btn-share" open-type="share" hover-class="option-pressed" hover-stay-time="0">分享报告</button>
 </view>

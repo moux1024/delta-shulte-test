@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #0f0f23;
+  background: #f5f7fb;
 }
 
 /* 状态栏 */
@@ -38,7 +38,7 @@
 }
 
 .timer {
-  color: #f39c12 !important;
+  color: var(--warning) !important;
 }
 
 .error-count {
@@ -106,27 +106,33 @@
   justify-content: center;
   background: var(--card-bg);
   border: 2rpx solid var(--card-border);
-  border-radius: 10rpx;
+  border-radius: 12rpx;
   font-weight: 700;
   color: var(--text-primary);
+  box-shadow: 0 6rpx 18rpx rgba(15, 23, 42, 0.06);
   transition: all 0.15s;
   position: relative;
 }
 
 .cell.dim {
-  opacity: 0.5;
+  opacity: 0.72;
 }
 
 .cell-num {
   font-weight: 700;
 }
 
-/* 已找到 - 保持原样不区分 */
+.cell-pressed {
+  background: var(--accent-soft) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+  transform: scale(0.96);
+}
 
 /* 点错 */
 .cell.wrong {
-  background: rgba(231, 76, 60, 0.2);
-  border-color: rgba(231, 76, 60, 0.6);
+  background: #fee2e2;
+  border-color: #fca5a5;
   animation: shake 0.3s ease;
 }
 
@@ -148,7 +154,7 @@
   top: 200rpx;
   left: 50%;
   transform: translateX(-50%) translateY(-20rpx);
-  background: rgba(231, 76, 60, 0.9);
+  background: #dc2626;
   color: white;
   padding: 16rpx 40rpx;
   border-radius: 12rpx;
@@ -173,7 +179,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(15, 23, 42, 0.42);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -185,9 +191,10 @@
   max-width: 600rpx;
   background: var(--card-bg);
   border: 1rpx solid var(--card-border);
-  border-radius: 24rpx;
+  border-radius: 20rpx;
   padding: 48rpx;
   text-align: center;
+  box-shadow: 0 28rpx 80rpx rgba(15, 23, 42, 0.18);
 }
 
 .modal-title {
@@ -240,18 +247,19 @@
 }
 
 .btn-retry {
-  background: var(--card-border) !important;
+  background: #f8fafc !important;
   color: var(--text-primary) !important;
+  border: 1rpx solid var(--card-border) !important;
 }
 
 .btn-detail {
-  background: linear-gradient(135deg, var(--accent), var(--accent-light)) !important;
+  background: var(--accent) !important;
   color: white !important;
 }
 
 .btn-ad {
   width: 100%;
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: #f8fafc !important;
   color: var(--text-secondary) !important;
   border: 1rpx solid var(--card-border) !important;
   margin-top: 0 !important;
