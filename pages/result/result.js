@@ -112,7 +112,7 @@ const PERSONA_CONFIG = [
     preferredRoles: ['assault', 'recon'],
     preferredOperators: ['露娜', '银翼', '骇爪'],
     tags: ['高速决策者', '侧翼猎手', '战场突破者'],
-    summary: '目标锁定和空间记忆突出, 适合主动找机会打开战局。'
+    summary: '你的目标锁定和空间记忆突出, 适合主动找机会打开战局。快速收集信息, 利用技能压迫对方暴露身位, 制造局部2打1的机会。'
   },
   {
     name: '控场大师',
@@ -123,28 +123,28 @@ const PERSONA_CONFIG = [
     summary: '空间记忆突出, 更适合利用地形、布置道具；挤压对方走位, 直至收网。'
   },
   {
-    name: '游击手',
+    name: '游击将军',
     weights: { searchSpeed: 0.35, fastDecision: 0.3, tempo: 0.2, risk: 0.15 },
     preferredRoles: ['assault', 'recon'],
     preferredOperators: ['威龙', '无名', '疾风', '红狼'],
     tags: ['机动拉扯者', '快节奏游击', '机会捕手'],
-    summary: '天下武功, 无坚不摧, 唯快不破。在运动中撕开对手的防线, 及时转点, 以防直架'
+    summary: '天下武功, 无坚不摧, 唯快不破。在运动中撕开对手的防线, 及时转点, 以防直架。'
   },
   {
-    name: '老贝榨',
+    name: '守株待兔',
     weights: { stability: 0.35, planning: 0.35, control: 0.3 },
     preferredRoles: ['engineer', 'recon'],
     preferredOperators: ['牧羊人', '乌鲁鲁', '银翼'],
     tags: ['稳定指挥位', '战术预判者', '节奏管理者'],
-    summary: '稳定性和规划能力更强, 适合组织推进与路线判断。'
+    summary: '稳定性和规划能力更强, 适合组织推进、路线判断、守株待兔。呃, 我不是说堵桥。'
   },
   {
-    name: '守护者',
+    name: '“守”“护”者',
     weights: { focus: 0.35, teamPlay: 0.35, tolerance: 0.3 },
     preferredRoles: ['support', 'engineer'],
     preferredOperators: ['蝶', '蜂医', '深蓝'],
     tags: ['团队支点', '持续专注', '抗压补位'],
-    summary: '持续专注和团队协同更突出, 适合保护队伍容错。'
+    summary: '持续专注和团队协同更突出, 适合保护队伍容错。守着护航kuku吃也算守护吧……'
   },
   {
     name: '核心区老吃家',
@@ -152,7 +152,7 @@ const PERSONA_CONFIG = [
     preferredRoles: ['engineer', 'recon', 'support'],
     preferredOperators: ['比特', '蜂医', '回响'],
     tags: ['一夫当关', '阵地战'],
-    summary: '控制和预判能力占优, 适合通过阵地与道具压缩敌方空间。'
+    summary: '控制和预判能力占优, 适合通过阵地与道具压缩敌方空间。先进核心的赢。'
   }
 ]
 
@@ -160,21 +160,19 @@ const PERSONA_CONFIG = [
 const DIM_CONFIG = [
   {
     key: 'searchSpeed',
-    name: '搜索速度',
-    icon: '',
+    name: '完成效率',
     descMap: [
-      [90, '视觉搜索能力极强, 能快速锁定目标'],
-      [70, '搜索效率良好, 能较快发现目标'],
-      [50, '存在一定搜索迟滞, 建议增加训练频率'],
-      [0, '视觉搜索效率较低, 容易出现寻找困难']
+      [90, '完成速度极强, 综合搜索和点击效率很高'],
+      [70, '完成效率良好, 整体节奏比较顺畅'],
+      [50, '完成效率一般, 中途存在一定卡顿'],
+      [0, '完成效率较低, 寻找和点击过程明显吃力']
     ],
-    strength: '视觉定位能力强',
-    weakness: '建议多练视觉搜索, 可尝试更大的方格'
+    strength: '完成效率高, 整体表现强',
+    weakness: '完成效率偏低, 可先练标准 5×5 提升节奏'
   },
   {
     key: 'stability',
     name: '注意力稳定性',
-    icon: '',
     descMap: [
       [90, '节奏非常稳定, 不容易走神, 持续输出一致'],
       [70, '注意力波动较小, 整体表现稳定'],
@@ -187,7 +185,6 @@ const DIM_CONFIG = [
   {
     key: 'focus',
     name: '持续专注力',
-    icon: '',
     descMap: [
       [90, '后期依然保持高度专注, 抗疲劳能力强'],
       [70, '后半程表现稳定, 专注力维持良好'],
@@ -200,7 +197,6 @@ const DIM_CONFIG = [
   {
     key: 'errorControl',
     name: '错误控制能力',
-    icon: '',
     descMap: [
       [90, '点击非常准确, 判断极其稳定, 几乎无误操作'],
       [70, '错误率较低, 判断准确度良好'],
@@ -213,7 +209,6 @@ const DIM_CONFIG = [
   {
     key: 'spatialMemory',
     name: '空间记忆能力',
-    icon: '',
     descMap: [
       [90, '后期搜索明显加速, 数字位置记忆很强'],
       [70, '后期寻找效率提升, 空间记忆表现良好'],
@@ -245,7 +240,7 @@ Page({
     bannerAdId: ''
   },
 
-  onLoad() {
+  onLoad(options) {
     const app = getApp()
     const result = app.globalData.lastResult
 
@@ -259,11 +254,12 @@ Page({
     const grade = getGrade(dimensions.overallScore)
     const { strengths, weaknesses } = getDeltaComment(dimensions.overallScore, dimensions)
     const typeInterpretations = getDeltaAdvice(dimensions.overallScore)
-    const selectedTypeInterpretation = _pickRandom(typeInterpretations)
+    const selectedTypeInterpretation = result.selectedTypeInterpretation ||
+      this._pickAdvice(typeInterpretations, options.adviceIndex || result.adviceIndex)
     const combat = _toCombatModel(dimensions)
     const profile = _getPersona(dimensions, combat)
     const roleList = _rankRoles(combat, profile)
-    const operatorList = _rankOperators(combat, profile)
+    const operatorList = _rankOperators(combat, profile, dimensions.overallScore)
     const primaryRole = roleList[0] || {}
     const primaryOperator = operatorList[0] || {}
     // 构建维度列表
@@ -333,7 +329,7 @@ Page({
         const radius = Math.min(width, height) / 2 - 50
 
         const dims = [
-          { label: '搜索速度', value: dimensions.searchSpeed / 100 },
+          { label: '完成效率', value: dimensions.searchSpeed / 100 },
           { label: '注意力\n稳定性', value: dimensions.stability / 100 },
           { label: '空间\n记忆', value: dimensions.spatialMemory / 100 },
           { label: '持续专注力', value: dimensions.focus / 100 },
@@ -439,13 +435,13 @@ Page({
     wx.redirectTo({ url: '/pages/index/index' })
   },
 
-  onShareAppMessage() {
-    const { profile, primaryRole, primaryOperator } = this.data
-    return {
-      title: `我的三角洲认知画像是${profile.name}, 推荐${primaryRole.name}/${primaryOperator.codename}`,
-      path: '/pages/index/index',
-      imageUrl: ''
+  _pickAdvice(list, index) {
+    if (!list || list.length === 0) return {}
+    const parsedIndex = Number(index)
+    if (Number.isInteger(parsedIndex) && parsedIndex >= 0 && parsedIndex < list.length) {
+      return list[parsedIndex]
     }
+    return list[Math.floor(Math.random() * list.length)]
   }
 })
 
@@ -485,21 +481,15 @@ function _rankRoles(combat, profile) {
   }).sort((a, b) => b.score - a.score)
 }
 
-function _rankOperators(combat, profile) {
-  const recommended = OPERATOR_RECOMMENDATION_POOLS.slice(0, 2).map(pool => {
-    return _rankOperatorPool(pool, combat, profile)[0]
-  }).filter(Boolean)
-
-  if (_shouldRecommendSlowOperators(combat)) {
-    const slowOperator = _rankOperatorPool(OPERATOR_RECOMMENDATION_POOLS[2], combat, profile)[0]
-    if (slowOperator) recommended.push(slowOperator)
-  }
-
-  return recommended
+function _rankOperators(combat, profile, overallScore) {
+  const pool = _getOperatorPoolByScore(overallScore)
+  return _rankOperatorPool(pool, combat, profile).slice(0, 3)
 }
 
-function _shouldRecommendSlowOperators(combat) {
-  return combat.fastDecision < 55 && combat.tempo < 60
+function _getOperatorPoolByScore(overallScore) {
+  if (overallScore >= 80) return OPERATOR_RECOMMENDATION_POOLS[0]
+  if (overallScore >= 40) return OPERATOR_RECOMMENDATION_POOLS[1]
+  return OPERATOR_RECOMMENDATION_POOLS[2]
 }
 
 function _rankOperatorPool(pool, combat, profile) {
@@ -596,11 +586,6 @@ function _cosineSimilarity(a, b) {
 
 function _round(value) {
   return Math.max(0, Math.min(100, Math.round(value)))
-}
-
-function _pickRandom(list) {
-  if (!list || list.length === 0) return {}
-  return list[Math.floor(Math.random() * list.length)]
 }
 
 function _scoreColor(score) {

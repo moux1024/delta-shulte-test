@@ -122,20 +122,9 @@ Page({
     const timeMs = session.totalTime
 
     // 多维度评估
-    const dimensions = evaluateDimensions(this._collector.getEventsForEval(), this.data.gridSize)
+    const dimensions = evaluateDimensions(this._collector.getEventsForEval(), this.data.gridSize, timeMs)
     const grade = getGrade(dimensions.overallScore)
     const { comment } = getDeltaComment(dimensions.overallScore, dimensions)
-
-    // 更新最佳记录
-    const app = getApp()
-    const bestKey = `bestTime_${this.data.gridSize}`
-    const prevBest = wx.getStorageSync(bestKey) || 0
-    if (!prevBest || timeMs < prevBest) {
-      wx.setStorageSync(bestKey, timeMs)
-      app.globalData.bestTime = timeMs
-      // 上传最佳记录
-      this._uploadBest(timeMs, dimensions)
-    }
 
     this.setData({
       showComplete: true,
@@ -146,23 +135,6 @@ Page({
       deltaComment: comment,
       _sessionData: session,
       _dimensions: dimensions
-    })
-
-    // 上传session数据
-    this._uploadSession(session, dimensions)
-  },
-
-  _uploadSession(session, dimensions) {
-    const { uploadSession } = require('../../utils/api')
-    uploadSession(session, dimensions)
-  },
-
-  _uploadBest(timeMs, dimensions) {
-    const { uploadBestRecord } = require('../../utils/api')
-    uploadBestRecord({
-      gridSize: this.data.gridSize,
-      totalTime: timeMs,
-      overallScore: dimensions.overallScore
     })
   },
 

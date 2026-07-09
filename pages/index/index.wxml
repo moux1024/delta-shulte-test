@@ -1,29 +1,9 @@
 <view class="page">
   <!-- 顶部 Hero -->
   <view class="hero">
-    <view class="hero-badge">注意力测试</view>
     <text class="hero-title">测测你适不适合玩三角洲</text>
-    <text class="hero-subtitle">老登，别怂，来挑战！</text>
+    <text class="hero-subtitle">小辣条还是老登, 一试便知</text>
     <view class="hero-glow"></view>
-  </view>
-
-  <!-- 各难度最佳记录 -->
-  <view class="best-records card" wx:if="{{hasBestRecord}}">
-    <text class="best-title">历史最佳</text>
-    <view class="best-list">
-      <view class="best-item" wx:if="{{bestRecords[5]}}">
-        <text class="best-diff">入门(5×5)</text>
-        <text class="best-val">{{bestRecords[5]}}</text>
-      </view>
-      <view class="best-item" wx:if="{{bestRecords[6]}}">
-        <text class="best-diff">标准(6×6)</text>
-        <text class="best-val">{{bestRecords[6]}}</text>
-      </view>
-      <view class="best-item" wx:if="{{bestRecords[7]}}">
-        <text class="best-diff">地狱(7×7)</text>
-        <text class="best-val">{{bestRecords[7]}}</text>
-      </view>
-    </view>
   </view>
 
   <!-- 游戏说明 -->
@@ -46,29 +26,8 @@
       </view>
       <view class="rule-item">
         <text class="rule-num">4</text>
-        <text class="rule-text">系统会分析你的搜索速度、注意力稳定性等多维度能力</text>
+        <text class="rule-text">系统会分析你的完成效率、注意力稳定性等多维度能力</text>
       </view>
-    </view>
-  </view>
-
-  <!-- 科学原理 -->
-  <view class="science card">
-    <view class="intro-header">
-      <text class="intro-title">科学原理</text>
-    </view>
-    <view class="science-body">
-      <text class="science-text">
-        舒尔特方格（Schulte Table）由德国心理学家沃尔特·舒尔特发明，
-        是全球公认最有效的注意力训练方法之一。
-      </text>
-      <text class="science-text">
-        最初用于飞行员和航天员的专注力训练，通过在随机排列的数字方格中按顺序寻找数字，
-        锻炼视神经末梢、视觉定向搜索速度以及注意力的集中、分配和控制能力。
-      </text>
-      <text class="science-text">
-        心理学研究表明，25秒以内完成5×5方格属于优秀水平，
-        说明个体的注意力集中能力和视觉搜索速度处于顶尖水准。
-      </text>
     </view>
   </view>
 
@@ -83,9 +42,8 @@
         hover-class="option-pressed"
         hover-stay-time="0"
       >
-        <text class="diff-name">入门</text>
+        <text class="diff-name green">入门</text>
         <text class="diff-desc">5×5</text>
-        <text class="diff-current" wx:if="{{difficulty === 5}}">当前</text>
       </view>
       <view 
         class="diff-btn {{difficulty === 6 ? 'active' : ''}}" 
@@ -96,7 +54,6 @@
       >
         <text class="diff-name">标准</text>
         <text class="diff-desc">6×6</text>
-        <text class="diff-current" wx:if="{{difficulty === 6}}">当前</text>
       </view>
       <view 
         class="diff-btn {{difficulty === 7 ? 'active' : ''}}" 
@@ -105,9 +62,8 @@
         hover-class="option-pressed"
         hover-stay-time="0"
       >
-        <text class="diff-name">地狱</text>
+        <text class="diff-name red">地狱</text>
         <text class="diff-desc">7×7</text>
-        <text class="diff-current" wx:if="{{difficulty === 7}}">当前</text>
       </view>
     </view>
   </view>
@@ -116,10 +72,40 @@
   <button class="btn-start" bindtap="startGame" hover-class="btn-pressed" hover-stay-time="0">
     开始挑战
   </button>
-  <button class="btn-test-result" bindtap="openTestResult" hover-class="option-pressed" hover-stay-time="0">
-    测试查看结果
-  </button>
+  <!-- <view class="test-result-list">
+    <view
+      class="btn-test-result"
+      wx:for="{{testResults}}"
+      wx:key="index"
+      bindtap="openTestResult"
+      data-index="{{index}}"
+      hover-class="option-pressed"
+      hover-stay-time="0"
+    >
+      {{item.label}}
+    </view>
+  </view> -->
 
+  <!-- 科学原理 -->
+  <view class="science card">
+    <view class="intro-header">
+      <text class="intro-title">科学原理</text>
+    </view>
+    <view class="science-body">
+      <text class="science-text">
+        舒尔特方格（Schulte Table）由德国心理学家沃尔特·舒尔特发明，
+        是全球公认最有效的注意力训练方法之一。
+      </text>
+      <text class="science-text">
+        最初用于飞行员和航天员的专注力训练，通过在随机排列的数字方格中按顺序寻找数字，
+        锻炼视神经末梢、视觉定向搜索效率以及注意力的集中、分配和控制能力。
+      </text>
+      <text class="science-text">
+        心理学研究表明，25秒以内完成5×5方格属于优秀水平，
+        说明个体的注意力集中能力和完成效率处于顶尖水准。
+      </text>
+    </view>
+  </view>
   <!-- Banner广告（暂时隐藏） -->
   <!-- <ad unit-id="{{bannerAdId}}" ad-intervals="{{adIntervals}}" ad-type="banner" class="banner-ad" wx:if="{{showAd}}" /> -->
 </view>

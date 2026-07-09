@@ -2,11 +2,11 @@
  * 舒尔特方格核心算法 & 多维度认知能力评估系统
  * 
  * 评估维度：
- * 1. 搜索速度 (Search Speed) - 权重 30%
- * 2. 注意力稳定性 (Attention Stability) - 权重 20%
- * 3. 持续专注力 (Focus Endurance) - 权重 20%
+ * 1. 完成效率 (Completion Efficiency) - 权重 50%
+ * 2. 注意力稳定性 (Attention Stability) - 权重 10%
+ * 3. 持续专注力 (Focus Endurance) - 权重 15%
  * 4. 错误控制能力 (Error Control) - 权重 15%
- * 5. 空间记忆能力 (Spatial Memory) - 权重 15%
+ * 5. 空间记忆能力 (Spatial Memory) - 权重 10%
  */
 
 /**
@@ -54,9 +54,10 @@ function formatTime(timeMs) {
  * 从事件列表计算5个维度得分
  * @param {Array} events 点击事件数组
  * @param {number} gridSize 方格大小
+ * @param {number} totalTime 总完成时长（ms）
  * @returns {Object} { searchSpeed, stability, focus, errorControl, spatialMemory, overallScore, details }
  */
-function evaluateDimensions(events, gridSize) {
+function evaluateDimensions(events, gridSize, totalTime) {
   // 分离正确事件和错误事件
   const correctEvents = events.filter(e => e.isCorrect)
   const wrongEvents = events.filter(e => !e.isCorrect)
@@ -75,8 +76,9 @@ function evaluateDimensions(events, gridSize) {
     return getFallbackScores()
   }
 
-  // 1. 搜索速度
-  const searchSpeed = calcSearchSpeed(reactionTimes, gridSize)
+  // 1. 完成效率。沿用 searchSpeed 字段名，避免影响结果页和画像模型。
+  const completionTime = totalTime || getTotalTimeFromEvents(correctEvents)
+  const searchSpeed = calcCompletionEfficiency(completionTime, gridSize)
 
   // 2. 注意力稳定性
   const stability = calcStability(reactionTimes)
@@ -92,11 +94,11 @@ function evaluateDimensions(events, gridSize) {
 
   // 综合评分
   const overallScore = Math.round(
-    searchSpeed * 0.30 +
-    stability * 0.20 +
-    focus * 0.20 +
+    searchSpeed * 0.50 +
+    stability * 0.10 +
+    focus * 0.15 +
     errorControl * 0.15 +
-    spatialMemory * 0.15
+    spatialMemory * 0.10
   )
 
   return {
@@ -110,6 +112,7 @@ function evaluateDimensions(events, gridSize) {
     details: {
       avgRT: avg(reactionTimes),
       medianRT: median(reactionTimes),
+      totalTime: completionTime,
       stdRT: std(reactionTimes),
       detrendedStdRT: detrendedStd(reactionTimes),
       errorRate: wrongEvents.length / events.length,
@@ -123,29 +126,37 @@ function evaluateDimensions(events, gridSize) {
 }
 
 /**
- * 维度1：搜索速度
- * 基于平均反应时间，标准化到0-100
+ * 维度1：完成效率
+ * 基于总完成时长，标准化到0-100。5×5 25秒约等于90分。
  */
-function calcSearchSpeed(reactionTimes, gridSize) {
-  const typicalRT = median(reactionTimes) * 0.70 + trimmedAvg(reactionTimes, 0.10) * 0.30
-  const difficultyFactor = getGridDifficultyFactor(gridSize)
-  const normalizedRT = typicalRT / difficultyFactor
+function calcCompletionEfficiency(totalTime, gridSize) {
+  const normalizedTime = totalTime / getGridTimeFactor(gridSize)
 
-  // 400ms → 95分, 800ms → 70分, 1500ms → 40分, 3000ms → 10分
-  return scoreByBreakpoints(normalizedRT, [
+  return scoreByBreakpoints(normalizedTime, [
     [0, 100],
-    [400, 95],
-    [800, 70],
-    [1500, 40],
-    [3000, 10],
-    [5000, 0]
+    [15000, 100],
+    [25000, 90],
+    [35000, 75],
+    [50000, 55],
+    [75000, 30],
+    [100000, 0]
   ])
+}
+
+function getGridTimeFactor(gridSize) {
+  const cellFactor = (gridSize * gridSize) / 25
+  return cellFactor * getGridDifficultyFactor(gridSize)
 }
 
 function getGridDifficultyFactor(gridSize) {
   if (gridSize >= 7) return 1.30
   if (gridSize >= 6) return 1.15
   return 1
+}
+
+function getTotalTimeFromEvents(correctEvents) {
+  if (correctEvents.length < 2) return 0
+  return correctEvents[correctEvents.length - 1].timestamp - correctEvents[0].timestamp
 }
 
 /**
@@ -376,7 +387,7 @@ function getDeltaComment(overallScore, dimensions) {
 
   // 找优势项和待提升项
   const allDims = [
-    { key: 'searchSpeed', name: '搜索速度', score: searchSpeed },
+    { key: 'searchSpeed', name: '完成效率', score: searchSpeed },
     { key: 'stability', name: '注意力稳定性', score: stability },
     { key: 'focus', name: '持续专注力', score: focus },
     { key: 'errorControl', name: '错误控制', score: errorControl },
@@ -411,37 +422,37 @@ function getDeltaComment(overallScore, dimensions) {
 function getDeltaAdvice(overallScore) {
   if (overallScore >= 90) {
     return [
-      { icon: '', text: '玻璃大炮，千万撤离' },
-      { icon: '', text: '绝航单三，天才少年!' },
-      { icon: '', text: '大坝安澜，飞散吧小粑儿!' }
+      { icon: '/assets/666.png', text: '玻璃大炮，千万撤离' },
+      { icon: '/assets/天才少年.png', text: '绝航单三，天才少年!' },
+      { icon: '/assets/天才少年.png', text: '大坝安澜，飞散吧小粑儿!' }
     ]
   }
   if (overallScore >= 80) {
     return [
-      { icon: '', text: '魔王护? 没错就是我' },
-      { icon: '', text: '突击是你的最佳位置，为队友撕开对面的防线' },
-      { icon: '', text: '带上你的信息位队友，你们可以横扫核心区' }
+      { icon: '/assets/Gtl超人.png', text: '魔王护? 没错就是我' },
+      { icon: '/assets/威龙.png', text: '进攻型信息位是你的最佳位置，为队友撕开对面的防线' },
+      { icon: '/assets/威龙.png', text: '带上你的专用疾风，你们可以横扫核心区' }
     ]
   }
   if (overallScore >= 70) {
     return [
-      { icon: '', text: '起全装吧，也可以一穿三' },
-      { icon: '', text: '试试辅助位或工程位，这不只是一个枪法身法的游戏' },
-      { icon: '', text: '' }
+      { icon: '/assets/守护者.png', text: '起全装吧，也可以一穿三' },
+      { icon: '/assets/守护者.png', text: '试试辅助位或工程位，这不只是一个枪法身法的游戏' },
+      { icon: '/assets/守护者.png', text: '' }
     ]
   }
   if (overallScore >= 60) {
     return [
-      { icon: '', text: '护航是不行了，娱乐陪可以' },
-      { icon: '', text: '猛攻不是唯一答案，试试三比特?' },
-      { icon: '', text: '航天当水鬼的来，时间会证明电锯' }
+      { icon: '/assets/花来.png', text: '护航是不行了，娱乐陪可以' },
+      { icon: '/assets/守护者.png', text: '猛攻不是唯一答案，试试三比特?' },
+      { icon: '/assets/老贝榨.png', text: '航天当水鬼的来，时间会证明电锯' }
     ]
   }
   return [
-    { icon: '', text: '重在参与，不行咱开个变声器' },
-    { icon: '', text: '跑刀! 跑刀! 跑刀!' },
-    { icon: '', text: '航天桥上打扑克也挺好的，就是得带张全家福' },
-    { icon: '', text: '赛季初去夜坝，把把都有红，就是屁股疼' }
+    { icon: '/assets/花来.png', text: '重在参与，不行咱开个变声器' },
+    { icon: '/assets/再救一个.png', text: '跑刀! 跑刀! 跑刀!' },
+    { icon: '/assets/老贝榨.png', text: '航天桥上打扑克也挺好的，就是得带张全家福' },
+    { icon: '/assets/再救一个.png', text: '赛季初去夜坝，把把都有红，就是屁股疼' }
   ]
 }
 

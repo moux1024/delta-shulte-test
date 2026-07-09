@@ -1,8 +1,7 @@
 <view class="page">
   <view class="report-hero">
-    <view class="hero-topline">
-      <text class="hero-label">认知画像</text>
-      <text class="hero-grade" style="color: {{grade.color}}">{{grade.level}}</text>
+    <view class="hero-icon-wrap" wx:if="{{selectedTypeInterpretation.icon}}">
+      <image class="hero-icon" src="{{selectedTypeInterpretation.icon}}" mode="aspectFit" />
     </view>
     <text class="profile-name">{{profile.name}}</text>
     <text class="profile-summary">{{profile.summary}}</text>
@@ -18,20 +17,13 @@
     </view>
   </view>
 
+  <view class="section">
+    <text class="type-text">{{selectedTypeInterpretation.text}}</text>
+  </view>
+
   <view class="tag-row">
     <text class="tag" wx:for="{{tags}}" wx:key="*this">{{item}}</text>
   </view>
-
-  <view class="section">
-    <view class="section-header">
-      <text class="section-title">类型解读</text>
-    </view>
-    <view class="type-interpretation">
-      <text class="type-title">{{profile.name}}</text>
-      <text class="type-text">{{selectedTypeInterpretation.text}}</text>
-    </view>
-  </view>
-
   <view class="section operator-section">
     <view class="section-header">
       <text class="section-title">干员推荐</text>
@@ -62,5 +54,4 @@
   </view>
 
   <button class="btn-start" bindtap="retry" hover-class="btn-pressed" hover-stay-time="0">再测一次</button>
-  <button class="btn-share" open-type="share" hover-class="option-pressed" hover-stay-time="0">分享报告</button>
 </view>
